@@ -10,7 +10,6 @@ public class WhereismyhomeFinalApplication {
 		System.out.println("hello");
 		System.out.println("test");
 		System.out.println("왜 머지 안됨");
-		System.out.println("test");
 		SpringApplication.run(WhereismyhomeFinalApplication.class, args);
 	}
 
