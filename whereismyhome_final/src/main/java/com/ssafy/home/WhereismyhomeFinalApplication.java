@@ -8,6 +8,7 @@ public class WhereismyhomeFinalApplication {
 
 	public static void main(String[] args) {
 		System.out.println("hello");
+		System.out.println("test");
 		SpringApplication.run(WhereismyhomeFinalApplication.class, args);
 	}
 
