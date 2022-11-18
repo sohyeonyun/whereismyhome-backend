@@ -25,7 +25,6 @@ public class SwaggerConfiguration {
 //	http://localhost[:8080]/{your-app-root}/swagger-ui.html
 //	Swagger-UI 3.x 확인
 //	http://localhost[:8080]/{your-app-root}/swagger-ui/index.html
-//	왜 안되노..
 
 	private String version = "V1";
 	private String title = "SSAFY Board API " + version;
@@ -34,14 +33,14 @@ public class SwaggerConfiguration {
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2).consumes(getConsumeContentTypes())
 				.produces(getProduceContentTypes()).apiInfo(apiInfo()).groupName(version).select()
-				.apis(RequestHandlerSelectors.basePackage("com.ssafy.home.user.controller")).paths(regex("/user/*")).build()
+				.apis(RequestHandlerSelectors.basePackage("com.ssafy.home.user.controller")).paths(regex("/user.*")).build()
 				.useDefaultResponseMessages(false);
 	}
 
 	private Set<String> getConsumeContentTypes() {
 		Set<String> consumes = new HashSet<>();
 		consumes.add("application/json;charset=UTF-8");
-		consumes.add("application/xml;charset=UTF-8");
+//		consumes.add("application/xml;charset=UTF-8");
 		consumes.add("application/x-www-form-urlencoded");
 		return consumes;
 	}

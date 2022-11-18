@@ -4,7 +4,7 @@
 
 <mapper namespace="com.ssafy.home.user.model.mapper.UserMapper">
 
-	<resultMap type="UserDTO" id="user">
+	<!-- <resultMap type="UserDTO" id="user">
 		<result column="user_id" property="userId"/>
 		<result column="user_password" property="userPassword"/>
 		<result column="user_name" property="userName"/>
@@ -12,7 +12,7 @@
 		<result column="user_phone" property="userPhone"/>
 		<result column="register_time" property="registerTime"/>
 		<result column="token" property="token"/>
-	</resultMap>
+	</resultMap> -->
 
 	<insert id="registUser" parameterType="UserDTO">
 		insert into user
