@@ -1,12 +1,24 @@
 package com.ssafy.home.user.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "UserDTO : 유저정보", description = "유저의 상세 정보를 나타낸다.")
 public class UserDTO {
+	
+	@ApiModelProperty(value = "유저아이디")
 	private String userId;
+	@ApiModelProperty(value = "유저비밀번호")
 	private String userPassword;
+	@ApiModelProperty(value = "유저이름")
 	private String userName;
+	@ApiModelProperty(value = "유저이메일")
 	private String userEmail;
+	@ApiModelProperty(value = "유저번호")
 	private String userPhone;
+	@ApiModelProperty(value = "유저가입일")
 	private String registerTime;
+	@ApiModelProperty(value = "토큰")
 	private String token;
 	
 	public String getUserId() {
