@@ -25,6 +25,7 @@ import com.ssafy.home.user.model.service.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @RestController
 @RequestMapping("/user")
@@ -39,8 +40,8 @@ public class UserController {
 	private UserService userService;
 
 	@PostMapping("/login")
-	@ApiOperation(value = "유저 로그인", response = String.class)
-	public ResponseEntity<?> userLogin(@RequestParam Map<String, String> map, HttpSession session) {
+	@ApiOperation(value = "유저 로그인", response = UserDTO.class)
+	public ResponseEntity<?> userLogin(@RequestParam @ApiParam(value = "로그인 맵.", required = true) Map<String, String> map, HttpSession session) {
 		logger.info("userLogin - 호출");
 		UserDTO user = null;
 		try {
@@ -48,7 +49,7 @@ public class UserController {
 			if (user != null) {
 				logger.info("로그인 정보 : {}", map);
 				session.setAttribute("userInfo", user);
-				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+				return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
 			} else {
 				return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 			}
@@ -68,7 +69,7 @@ public class UserController {
 
 	@PostMapping("/")
 	@ApiOperation(value = "유저 회원가입", response = String.class)
-	public ResponseEntity<?> userRegist(@RequestParam UserDTO userDto) {
+	public ResponseEntity<?> userRegist(@RequestBody @ApiParam(value = "회원가입 정보.", required = true) UserDTO userDto) {
 		logger.info("userRegist - 호출");
 		logger.info("userRegist userDto : {}", userDto);
 
@@ -83,7 +84,7 @@ public class UserController {
 
 	@PutMapping("/")
 	@ApiOperation(value = "유저 회원수정", response = String.class)
-	public ResponseEntity<?> userModify(@RequestParam UserDTO userDto) {
+	public ResponseEntity<?> userModify(@RequestBody @ApiParam(value = "회원수정 정보.", required = true) UserDTO userDto) {
 		logger.info("userModify - 호출");
 		logger.info("userModify userDto : {}", userDto);
 
@@ -98,7 +99,7 @@ public class UserController {
 
 	@DeleteMapping("/{userid}")
 	@ApiOperation(value = "유저 회원탈퇴", response = String.class)
-	public ResponseEntity<?> userDelete(@PathVariable("userid") String userId) {
+	public ResponseEntity<?> userDelete(@PathVariable("userid") @ApiParam(value = "회원삭제 아이디.", required = true) String userId) {
 		logger.info("userDelete - 호출");
 		logger.info("userDelete userid : {}", userId);
 
