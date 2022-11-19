@@ -2,6 +2,7 @@ package com.ssafy.home.user.model.service;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,7 @@ public class UserServiceImpl implements UserService {
 
 	private UserMapper mapper = null;
 
+	@Autowired
 	private UserServiceImpl(UserMapper mapper) {
 		this.mapper = mapper;
 	}
