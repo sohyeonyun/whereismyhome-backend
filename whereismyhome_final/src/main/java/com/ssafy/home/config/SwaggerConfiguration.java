@@ -44,6 +44,16 @@ public class SwaggerConfiguration {
 	public Docket userApi() {
 		return getDocket("회원", Predicates.or(PathSelectors.regex("/user.*")));
 	}
+	
+	@Bean
+	public Docket noticeApi() {
+		return getDocket("공지사항", Predicates.or(PathSelectors.regex("/notice.*")));
+	}
+	
+	@Bean
+	public Docket allApi() {
+		return getDocket("전체", Predicates.or(PathSelectors.regex("/*.*")));
+	}
 
 
 	public Docket getDocket(String groupName, Predicate<String> predicate) {
@@ -52,7 +62,7 @@ public class SwaggerConfiguration {
 //		responseMessages.add(new ResponseMessageBuilder().code(500).message("서버 문제 발생 !!!").responseModel(new ModelRef("Error")).build());
 //		responseMessages.add(new ResponseMessageBuilder().code(404).message("페이지를 찾을 수 없습니다 !!!").build());
 		return new Docket(DocumentationType.SWAGGER_2).groupName(groupName).apiInfo(apiInfo()).select()
-				.apis(RequestHandlerSelectors.basePackage("com.ssafy.home.user.controller")).paths(predicate)
+				.apis(RequestHandlerSelectors.basePackage("com.ssafy.home.controller")).paths(predicate)
 				.apis(RequestHandlerSelectors.any()).build();
 //				.useDefaultResponseMessages(false)
 //				.globalResponseMessage(RequestMethod.GET,responseMessages);

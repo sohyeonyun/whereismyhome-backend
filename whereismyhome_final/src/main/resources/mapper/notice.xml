@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.home.model.mapper.NoticeMapper">
+
+	<resultMap type="NoticeDTO" id="notice">
+		<result column="notice_no" property="noticeNo"/>
+		<result column="user_id" property="userId"/>
+		<result column="subject" property="subject"/>
+		<result column="content" property="content"/>
+		<result column="hit" property="hit"/>
+		<result column="register_time" property="registerTime"/>
+		<result column="ip_address" property="ipAddress"/>
+	</resultMap>
+
+	<select id="listNotice" resultMap="notice">
+		select *
+		from notice
+		order by notice_no desc
+	</select>
+	
+	<insert id="registNotice" parameterType="NoticeDTO">
+		insert into notice
+		(user_id, subject, content, ip_address)
+    	values (#{userId}, #{subject}, #{content}, #{ipAddress})
+	</insert>
+	
+	<select id="viewNotice" parameterType="int" resultMap="notice">
+		select * 
+		from notice
+		where notice_no = #{noticeNo};
+	</select>
+	
+	<update id="updateNotice" parameterType="NoticeDTO">
+		update notice
+		set subject = #{subject}, content = #{content}
+    	where notice_no = #{noticeNo} and user_id = #{userId}
+	</update>
+	
+	<delete id="deleteNotice" parameterType="int">
+		delete from notice
+		where notice_no = #{noticeNo};
+	</delete>
+	
+	<update id="updateHit" parameterType="int">
+		update notice
+		set hit = hit + 1
+		where notice_no = #{noticeNo};
+	</update>
+</mapper>
