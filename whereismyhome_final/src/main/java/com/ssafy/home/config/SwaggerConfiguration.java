@@ -51,6 +51,11 @@ public class SwaggerConfiguration {
 	}
 	
 	@Bean
+	public Docket commentApi() {
+		return getDocket("공지사항 댓글", Predicates.or(PathSelectors.regex("/comment.*")));
+	}
+	
+	@Bean
 	public Docket allApi() {
 		return getDocket("전체", Predicates.or(PathSelectors.regex("/*.*")));
 	}
