@@ -41,6 +41,7 @@ public class UserController {
 	@ApiOperation(value = "유저 로그인", response = UserDTO.class)
 	public ResponseEntity<?> userLogin(@RequestBody @ApiParam(value = "로그인 맵.", required = true) Map<String, String> map, HttpSession session) {
 		logger.info("userLogin - 호출");
+		
 		try {
 			UserDTO user = userService.loginUser(map);
 			if (user != null) {
