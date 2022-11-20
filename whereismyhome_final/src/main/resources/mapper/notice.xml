@@ -14,6 +14,7 @@
 		<result column="ip_address" property="ipAddress"/>
 	</resultMap>
 
+	<!-- 게시글 -->
 	<select id="listNotice" resultMap="notice">
 		select *
 		from notice
@@ -29,7 +30,7 @@
 	<select id="viewNotice" parameterType="int" resultMap="notice">
 		select * 
 		from notice
-		where notice_no = #{noticeNo};
+		where notice_no = #{noticeNo}
 	</select>
 	
 	<update id="updateNotice" parameterType="NoticeDTO">
@@ -40,12 +41,13 @@
 	
 	<delete id="deleteNotice" parameterType="int">
 		delete from notice
-		where notice_no = #{noticeNo};
+		where notice_no = #{noticeNo}
 	</delete>
 	
 	<update id="updateHit" parameterType="int">
 		update notice
 		set hit = hit + 1
-		where notice_no = #{noticeNo};
+		where notice_no = #{noticeNo}
 	</update>
+	
 </mapper>

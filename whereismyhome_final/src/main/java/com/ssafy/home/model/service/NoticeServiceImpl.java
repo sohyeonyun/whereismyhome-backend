@@ -6,13 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.home.model.NoticeDTO;
+import com.ssafy.home.model.NoticeLikeDTO;
 import com.ssafy.home.model.mapper.NoticeMapper;
 
 @Service
 public class NoticeServiceImpl implements NoticeService {
-	
+
 	private NoticeMapper mapper = null;
-	
+
 	@Autowired
 	private NoticeServiceImpl(NoticeMapper mapper) {
 		this.mapper = mapper;
@@ -24,8 +25,8 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public void registNotice(NoticeDTO dto) throws Exception {
-		mapper.registNotice(dto);
+	public boolean registNotice(NoticeDTO dto) throws Exception {
+		return mapper.registNotice(dto);
 	}
 
 	@Override
@@ -34,12 +35,12 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public int updateNotice(NoticeDTO dto) throws Exception {
+	public boolean updateNotice(NoticeDTO dto) throws Exception {
 		return mapper.updateNotice(dto);
 	}
 
 	@Override
-	public int deleteNotice(int noticeNo) throws Exception {
+	public boolean deleteNotice(int noticeNo) throws Exception {
 		return mapper.deleteNotice(noticeNo);
 	}
 
