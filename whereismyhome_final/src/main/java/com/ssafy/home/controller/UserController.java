@@ -71,7 +71,7 @@ public class UserController {
 		}
 	}
 
-	@PutMapping
+	@PutMapping("/{userid}")
 	@ApiOperation(value = "유저 회원수정", response = String.class)
 	public ResponseEntity<?> userModify(@RequestBody @ApiParam(value = "회원수정 정보.", required = true) UserDTO userDto) {
 		logger.info("userModify - 호출");
