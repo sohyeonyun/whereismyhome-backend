@@ -1,4 +1,4 @@
-package com.ssafy.home.user.controller;
+package com.ssafy.home.controller;
 
 import java.util.Map;
 
@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,11 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.home.user.model.UserDTO;
-import com.ssafy.home.user.model.service.UserService;
+import com.ssafy.home.model.UserDTO;
+import com.ssafy.home.model.service.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,11 +39,10 @@ public class UserController {
 
 	@PostMapping("/login")
 	@ApiOperation(value = "유저 로그인", response = UserDTO.class)
-	public ResponseEntity<?> userLogin(@RequestParam @ApiParam(value = "로그인 맵.", required = true) Map<String, String> map, HttpSession session) {
+	public ResponseEntity<?> userLogin(@RequestBody @ApiParam(value = "로그인 맵.", required = true) Map<String, String> map, HttpSession session) {
 		logger.info("userLogin - 호출");
-		UserDTO user = null;
 		try {
-			user = userService.loginUser(map);
+			UserDTO user = userService.loginUser(map);
 			if (user != null) {
 				logger.info("로그인 정보 : {}", map);
 				session.setAttribute("userInfo", user);

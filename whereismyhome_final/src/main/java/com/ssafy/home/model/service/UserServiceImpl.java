@@ -1,13 +1,12 @@
-package com.ssafy.home.user.model.service;
+package com.ssafy.home.model.service;
 
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.ssafy.home.user.model.UserDTO;
-import com.ssafy.home.user.model.mapper.UserMapper;
+import com.ssafy.home.model.UserDTO;
+import com.ssafy.home.model.mapper.UserMapper;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -30,13 +29,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-//	@Transactional
 	public int updateUser(UserDTO dto) throws Exception {
 		return mapper.updateUser(dto);
 	}
 
 	@Override
-//	@Transactional
 	public int deleteUser(String userId) throws Exception {
 		return mapper.deleteUser(userId);
 	}
