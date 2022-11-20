@@ -19,8 +19,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void registUser(UserDTO dto) throws Exception {
-		mapper.registUser(dto);
+	public boolean registUser(UserDTO dto) throws Exception {
+		return mapper.registUser(dto);
 	}
 
 	@Override
@@ -29,12 +29,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int updateUser(UserDTO dto) throws Exception {
+	public boolean updateUser(UserDTO dto) throws Exception {
 		return mapper.updateUser(dto);
 	}
 
 	@Override
-	public int deleteUser(String userId) throws Exception {
+	public boolean deleteUser(String userId) throws Exception {
 		return mapper.deleteUser(userId);
 	}
 

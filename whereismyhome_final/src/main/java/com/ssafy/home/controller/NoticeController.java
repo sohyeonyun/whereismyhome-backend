@@ -27,16 +27,16 @@ import io.swagger.annotations.ApiParam;
 @RequestMapping("/notice")
 @Api("Notice Controller API V1")
 public class NoticeController {
-	
+
 	public static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
-	
+
 	@Autowired
 	private NoticeService noticeService;
-	
+
 //	listNotice
-	@GetMapping("/")
+	@GetMapping
 	@ApiOperation(value = "공지사항 목록", response = ArrayList.class)
 	public ResponseEntity<?> noticelist() {
 		logger.info("noticelist - 호출");
@@ -49,28 +49,32 @@ public class NoticeController {
 			return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 		}
 	}
-	
+
 //	registNotice
-	@PostMapping("/")
+	@PostMapping
 	@ApiOperation(value = "공지사항 등록", response = String.class)
-	public ResponseEntity<?> noticeRegist(@RequestBody @ApiParam(value = "게시글 등록 정보.", required = true) NoticeDTO noticeDto) {
+	public ResponseEntity<?> noticeRegist(
+			@RequestBody @ApiParam(value = "게시글 등록 정보.", required = true) NoticeDTO noticeDto) {
 		logger.info("noticeRegist - 호출");
 		logger.info("noticeRegist noticeDto : {}", noticeDto);
 
 		try {
-			noticeService.registNotice(noticeDto);
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+			if (noticeService.registNotice(noticeDto)) {
+				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+			}
+			return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 		}
 	}
-	
+
 //	viewNotice
 //	updateHit
 	@GetMapping("/{noticeno}")
 	@ApiOperation(value = "공지사항 상세", response = NoticeDTO.class)
-	public ResponseEntity<?> noticeView(@PathVariable("noticeno") @ApiParam(value = "게시글 상세 번호.", required = true) int noticeNo) {
+	public ResponseEntity<?> noticeView(
+			@PathVariable("noticeno") @ApiParam(value = "게시글 상세 번호.", required = true) int noticeNo) {
 		logger.info("noticeView - 호출");
 		logger.info("noticeView noticeNo : {}", noticeNo);
 
@@ -83,37 +87,43 @@ public class NoticeController {
 			return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 		}
 	}
-	
+
 //	updateNotice
-	@PutMapping("/")
+	@PutMapping
 	@ApiOperation(value = "공지사항 수정", response = String.class)
-	public ResponseEntity<?> noticeModify(@RequestBody @ApiParam(value = "게시글 수정 정보.", required = true) NoticeDTO noticeDto) {
+	public ResponseEntity<?> noticeModify(
+			@RequestBody @ApiParam(value = "게시글 수정 정보.", required = true) NoticeDTO noticeDto) {
 		logger.info("noticeModify - 호출");
 		logger.info("noticeModify noticeDto : {}", noticeDto);
 
 		try {
-			noticeService.updateNotice(noticeDto);
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+			if (noticeService.updateNotice(noticeDto)) {
+				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+			}
+			return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 		}
 	}
-	
+
 //	deleteNotice
 	@DeleteMapping("/{noticeno}")
 	@ApiOperation(value = "공지사항 삭제", response = String.class)
-	public ResponseEntity<?> noticeDelete(@PathVariable("noticeno") @ApiParam(value = "게시글삭제 번호.", required = true) int noticeNo) {
+	public ResponseEntity<?> noticeDelete(
+			@PathVariable("noticeno") @ApiParam(value = "게시글삭제 번호.", required = true) int noticeNo) {
 		logger.info("noticeDelete - 호출");
 		logger.info("noticeDelete userid : {}", noticeNo);
 
 		try {
-			noticeService.deleteNotice(noticeNo);
-			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+			if (noticeService.deleteNotice(noticeNo)) {
+				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+			}
+			return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 		}
 	}
-	
+
 }
