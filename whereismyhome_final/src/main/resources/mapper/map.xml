@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.home.model.mapper.MapMapper">
+
+	<resultMap type="MapLocationDTO" id="locatedto">
+		<result column="si_gugun_dong_name" property="siGugunDongName"/>
+		<result column="dongcode" property="dongCode"/>
+	</resultMap>
+	
+	<resultMap type="MapDTO" id="mapdto">
+		<result column="apartmentname" property="apartmentName"/>
+		<result column="location" property="location"/>
+		<result column="buildyear" property="buildYear"/>
+		<result column="dealamount" property="dealAmount"/>
+		<result column="date" property="date"/>
+		<result column="area" property="area"/>
+		<result column="floor" property="floor"/>
+		<result column="lat" property="lat"/>
+		<result column="lng" property="lng"/>
+		<result column="house_like_count" property="houseLikeCount"/>
+	</resultMap>
+	
+	<!-- 맵 검색 -->
+	<select id="listMapLocation" parameterType="String" resultMap="locatedto">
+		select distinct concat(sidoName, " ", gugunName, " ", dongName) si_gugun_dong_name, dongcode
+			from dongcode
+		    where sidoName is not null
+				and gugunName is not null
+		        and dongName is not null
+		        and (sidoName like concat('%', #{name}, '%')
+						or gugunName like concat('%', #{name}, '%')
+						or dongName like concat('%', #{name}, '%')
+	</select>
+	
+	<select id="listMapDong" parameterType="map" resultMap="mapdto">
+		SELECT DISTINCT i.apartmentname,
+		                Concat(c.sidoname, ' ', c.gugunname, ' ', c.dongname) location,
+		                i.buildyear,
+		                d.dealamount,
+		                Concat(d.dealyear, '.', d.dealmonth, '.', d.dealday)  date,
+		                d.area,
+		                d.floor,
+		                i.lat,
+		                i.lng,
+		                (SELECT Count(*)
+		                 FROM   house_like
+		                 WHERE  aptcode = i.aptcode)
+		                house_like_count
+		FROM   houseinfo AS i
+		       LEFT JOIN dongcode AS c
+		              ON i.dongcode = c.dongcode
+		       LEFT JOIN housedeal AS d
+		              ON i.aptcode = d.aptcode
+		       LEFT JOIN house_like AS hl
+		              ON i.aptcode = hl.aptcode
+		WHERE  c.dongcode = #{dongCode}
+		       <if test="key == 'lowDealAmount'">
+		       		AND (SELECT Cast(REPLACE(dealamount, ',', '') AS UNSIGNED)) <![CDATA[ > ]]>= #{lowDealAmount}
+		       </if>
+		       <if test="key == 'highDealAmount'">
+		       		AND (SELECT Cast(REPLACE(dealamount, ',', '') AS UNSIGNED)) <![CDATA[ < ]]>= #{lowDealAmount}
+		       </if>
+		       <if test="key == 'lowArea'">
+		       		AND (SELECT Cast(area AS UNSIGNED)) <![CDATA[ > ]]>= #{lowArea}
+		       </if>
+		       <if test="key == 'highArea'">
+		       		AND (SELECT Cast(area AS UNSIGNED)) <![CDATA[ < ]]>= #{highArea}
+		       </if>
+		       <if test="key == 'year'">
+		       		AND d.dealyear <![CDATA[ < ]]>= Year(Now()) - #{year}
+		       </if>
+	</select>
+	
+	<select id="listMapApt" parameterType="map" resultMap="mapdto">
+		SELECT DISTINCT i.apartmentname,
+		                Concat(c.sidoname, ' ', c.gugunname, ' ', c.dongname) location,
+		                i.buildyear,
+		                d.dealamount,
+		                Concat(d.dealyear, '.', d.dealmonth, '.', d.dealday)  date,
+		                d.area,
+		                d.floor,
+		                i.lat,
+		                i.lng,
+		                (SELECT Count(*)
+		                 FROM   house_like
+		                 WHERE  aptcode = i.aptcode)
+		                house_like_count
+		FROM   houseinfo AS i
+		       LEFT JOIN dongcode AS c
+		              ON i.dongcode = c.dongcode
+		       LEFT JOIN housedeal AS d
+		              ON i.aptcode = d.aptcode
+		       LEFT JOIN house_like AS hl
+		              ON i.aptcode = hl.aptcode
+		WHERE  i.aptcode IN (SELECT aptcode
+		                     FROM   houseinfo
+		                     WHERE  apartmentname LIKE #{apartMentName})
+		       <if test="key == 'lowDealAmount'">
+		       		AND (SELECT Cast(REPLACE(dealamount, ',', '') AS UNSIGNED)) <![CDATA[ > ]]>= #{lowDealAmount}
+		       </if>
+		       <if test="key == 'highDealAmount'">
+		       		AND (SELECT Cast(REPLACE(dealamount, ',', '') AS UNSIGNED)) <![CDATA[ < ]]>= #{highDealAmount}
+		       </if>
+		       <if test="key == 'lowArea'">
+		       		AND (SELECT Cast(area AS UNSIGNED)) <![CDATA[ > ]]>= #{lowArea}
+		       </if>
+		       <if test="key == 'highArea'">
+		       		AND (SELECT Cast(area AS UNSIGNED)) <![CDATA[ < ]]>= #{highArea}
+		       </if>
+		       <if test="key == 'year'">
+		       		AND d.dealyear <![CDATA[ > ]]>= Year(Now()) - #{year}
+		       </if>
+	</select>
+	
+</mapper>

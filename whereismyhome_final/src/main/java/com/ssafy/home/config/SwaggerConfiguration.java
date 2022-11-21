@@ -66,6 +66,11 @@ public class SwaggerConfiguration {
 	}
 	
 	@Bean
+	public Docket mapApi() {
+		return getDocket("맵", Predicates.or(PathSelectors.regex("/map.*")));
+	}
+	
+	@Bean
 	public Docket allApi() {
 		return getDocket("전체", Predicates.or(PathSelectors.regex("/*.*")));
 	}

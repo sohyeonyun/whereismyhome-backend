@@ -23,7 +23,7 @@
 	
 	<insert id="registNotice" parameterType="NoticeDTO">
 		insert into notice
-		(user_id, subject, content, ip_address)
+			(user_id, subject, content, ip_address)
     	values (#{userId}, #{subject}, #{content}, #{ipAddress})
 	</insert>
 	

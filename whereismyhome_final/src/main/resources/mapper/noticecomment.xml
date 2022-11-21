@@ -23,7 +23,7 @@
 	
 	<insert id="registNoticeComment" parameterType="NoticeCommentDTO">
 		insert into notice_comment
-		(notice_no, user_id, content, ip_address)
+			(notice_no, user_id, content, ip_address)
     	values (#{noticeNo}, #{userId}, #{content}, #{ipAddress});
 	</insert>
 	
