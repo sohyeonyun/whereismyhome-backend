@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.home.model.mapper.QuestionMapper">
+
+	<resultMap type="QuestionDTO" id="question">
+		<result column="question_no" property="questionNo"/>
+		<result column="user_id" property="userId"/>
+		<result column="subject" property="subject"/>
+		<result column="content" property="content"/>
+		<result column="register_time" property="registerTime"/>
+		<result column="ip_address" property="ipAddress"/>
+		<result column="answer" property="answer"/>
+	</resultMap>
+	
+	<!-- 1:1 문의 -->
+	<select id="listQuestion" resultMap="question">
+		select *
+		from question
+		order by question_no desc
+	</select>
+	
+	<insert id="registQuestion" parameterType="QuestionDTO">
+		insert into question
+		(user_id, subject, content, ip_address)
+    	values (#{userId}, #{subject}, #{content}, #{ipAddress})
+	</insert>
+	
+	<update id="updateQuestion" parameterType="QuestionDTO">
+		update question
+		set subject = #{subject}, content = #{content}
+    	where question_no = #{questionNo} and user_id = #{userId}
+	</update>
+	
+	<delete id="deleteQuestion" parameterType="int">
+		delete from question
+		where question_no = #{questionNo}
+	</delete>
+	
+	<update id="registAnswer" parameterType="QuestionDTO">
+		update question
+		set answer = #{answer}
+    	where question_no = #{questionNo}
+	</update>
+	
+	<update id="updateAnswer" parameterType="QuestionDTO">
+		update question
+		set answer = #{answer}
+    	where question_no = #{questionNo}
+	</update>
+	
+	<update id="deleteAnswer" parameterType="int">
+		update question
+		set answer = null
+    	where question_no = #{questionNo}
+	</update>
+</mapper>

@@ -37,15 +37,16 @@ public class NoticeCommentController {
 	private NoticeCommentService noticeCommentService;
 
 //	listNoticeComment
-	@GetMapping("/{noticeno}")
+	@GetMapping("/{notice_no}")
 	@ApiOperation(value = "공지사항 댓글 목록", response = ArrayList.class)
 	public ResponseEntity<?> noticeCommentList(
-			@PathVariable("noticeno") @ApiParam(value = "댓글 등록할 게시글 번호.", required = true) int noticeNo) {
+			@PathVariable("notice_no") @ApiParam(value = "댓글 등록할 게시글 번호.", required = true) int noticeNo) {
 		logger.info("noticeCommentList - 호출");
 		logger.info("noticeCommentList noticeNo : {}", noticeNo);
 
 		try {
 			ArrayList<NoticeCommentDTO> list = noticeCommentService.listNoticeComment(noticeNo);
+			logger.info("noticeCommentList list : {} " , list);
 			return new ResponseEntity<ArrayList>(list, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -73,7 +74,7 @@ public class NoticeCommentController {
 	}
 
 //	updateNoticeComment
-	@PutMapping("/{notice_comment_no}")
+	@PutMapping
 	@ApiOperation(value = "공지사항 댓글 수정", response = String.class)
 	public ResponseEntity<?> noticeCommentModify(
 			@RequestBody @ApiParam(value = "게시글 댓글 수정 정보.", required = true) NoticeCommentDTO noticeCommentDTO) {
