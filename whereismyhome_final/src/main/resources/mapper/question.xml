@@ -23,7 +23,7 @@
 	
 	<insert id="registQuestion" parameterType="QuestionDTO">
 		insert into question
-		(user_id, subject, content, ip_address)
+			(user_id, subject, content, ip_address)
     	values (#{userId}, #{subject}, #{content}, #{ipAddress})
 	</insert>
 	

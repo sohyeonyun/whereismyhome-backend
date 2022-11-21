@@ -9,13 +9,13 @@
 		select distinct d.sidoname, d.gugunName, d.dongname
 		from dongCode as d
 			left join area_like as al
-		on d.dongcode = al.dongcode
+				on d.dongcode = al.dongcode
 		where al.user_id = #{userId} and d.dongname is not null
 	</select>
 	
 	<insert id="registAreaLike" parameterType="AreaLikeDTO">
 		insert into area_like
-		(user_id, dongCode, ip_address)
+			(user_id, dongCode, ip_address)
     	values (#{userId}, #{dongCode}, #{ipAddress})
 	</insert>
 	
