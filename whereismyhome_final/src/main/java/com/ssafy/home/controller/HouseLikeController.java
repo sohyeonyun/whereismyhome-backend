@@ -1,5 +1,7 @@
 package com.ssafy.home.controller;
 
+import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.home.model.HouseLikeDTO;
+import com.ssafy.home.model.UserAreaLikeDTO;
+import com.ssafy.home.model.UserHouseLikeDTO;
 import com.ssafy.home.model.service.HouseLikeService;
 
 import io.swagger.annotations.Api;
@@ -29,6 +33,24 @@ public class HouseLikeController {
 	
 	@Autowired
 	private HouseLikeService houseLikeService;
+	
+//	listHouseLike
+	@GetMapping("/{user_id}")
+	@ApiOperation(value = "유저 관심 아파트 목록", response = ArrayList.class)
+	public ResponseEntity<?> userHouseLikeList(
+			@PathVariable("user_id") @ApiParam(value = "유저 아이디.", required = true) String userId) {
+		logger.info("userHouseLikeList - 호출");
+		logger.info("userHouseLikeList userId : {}", userId);
+
+		try {
+			ArrayList<UserHouseLikeDTO> list = houseLikeService.listHouseLike(userId);
+			logger.info("userHouseLikeList list : {} " , list);
+			return new ResponseEntity<ArrayList>(list, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+		}
+	}
 	
 //	regisstHouseLike
 	@GetMapping("/{user_id}/{aptCode}")

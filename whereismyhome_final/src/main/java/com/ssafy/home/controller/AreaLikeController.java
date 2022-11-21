@@ -1,5 +1,7 @@
 package com.ssafy.home.controller;
 
+import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.home.model.AreaLikeDTO;
+import com.ssafy.home.model.NoticeCommentDTO;
 import com.ssafy.home.model.NoticeLikeDTO;
+import com.ssafy.home.model.UserAreaLikeDTO;
 import com.ssafy.home.model.service.AreaLikeService;
 
 import io.swagger.annotations.Api;
@@ -30,7 +34,25 @@ public class AreaLikeController {
 
 	@Autowired
 	private AreaLikeService areaLikeService;
+	
+//	listAreaLike
+	@GetMapping("/{user_id}")
+	@ApiOperation(value = "유저 관심지역 목록", response = ArrayList.class)
+	public ResponseEntity<?> userAreaLikeList(
+			@PathVariable("user_id") @ApiParam(value = "유저 아이디.", required = true) String userId) {
+		logger.info("userAreaLikeList - 호출");
+		logger.info("userAreaLikeList userId : {}", userId);
 
+		try {
+			ArrayList<UserAreaLikeDTO> list = areaLikeService.listAreaLike(userId);
+			logger.info("userAreaLikeList list : {} " , list);
+			return new ResponseEntity<ArrayList>(list, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+		}
+	}
+	
 //	regisstAreaLike
 	@GetMapping("/{user_id}/{dongCode}")
 	@ApiOperation(value = "관심지역 등록", response = String.class)

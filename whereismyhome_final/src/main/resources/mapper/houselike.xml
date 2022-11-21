@@ -5,6 +5,23 @@
 <mapper namespace="com.ssafy.home.model.mapper.HouseLikeMapper">
 	
 	<!-- 아파트 찜하기 -->
+	<select id="listHouseLike" parameterType="String" resultType="UserHouseLikeDTO">
+		select distinct i.apartmentName, concat(c.sidoName,' ', c.gugunName,' ', c.dongName) location,
+		i.buildYear, d.dealAmount, concat(d.dealYear,'.', d.dealMonth,'.', d.dealDay) date,
+    	d.area, d.floor, i.lat, i.lng, 
+		(select count(*)
+		from house_like
+    	where aptCode = 11110000000057) house_like_count
+		from houseinfo as i
+			left join dongcode as c
+		on i.dongcode = c.dongcode
+			left join housedeal as d
+		on i.aptCode = d.aptCode
+			left join house_like  as hl
+		on i.aptCode = hl.aptCode
+	    where hl.user_id = #{userId}
+	</select>
+	
 	<insert id="registHouseLike" parameterType="AreaLikeDTO">
 		insert into house_like
 		(user_id, aptCode, ip_address)
