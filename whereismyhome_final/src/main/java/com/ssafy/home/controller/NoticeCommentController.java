@@ -29,7 +29,7 @@ import io.swagger.annotations.ApiParam;
 @Api("NoticeComment Controller API V1")
 public class NoticeCommentController {
 
-	public static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	public static final Logger logger = LoggerFactory.getLogger(NoticeCommentController.class);
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
 
