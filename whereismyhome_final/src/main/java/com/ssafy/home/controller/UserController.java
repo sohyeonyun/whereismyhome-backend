@@ -71,7 +71,7 @@ public class UserController {
 		}
 	}
 
-	@PutMapping("/{userid}")
+	@PutMapping
 	@ApiOperation(value = "유저 회원수정", response = String.class)
 	public ResponseEntity<?> userModify(@RequestBody @ApiParam(value = "회원수정 정보.", required = true) UserDTO userDto) {
 		logger.info("userModify - 호출");
@@ -88,10 +88,10 @@ public class UserController {
 		}
 	}
 
-	@DeleteMapping("/{userid}")
+	@DeleteMapping("/{user_id}")
 	@ApiOperation(value = "유저 회원탈퇴", response = String.class)
 	public ResponseEntity<?> userDelete(
-			@PathVariable("userid") @ApiParam(value = "회원삭제 아이디.", required = true) String userId) {
+			@PathVariable("user_id") @ApiParam(value = "회원삭제 아이디.", required = true) String userId) {
 		logger.info("userDelete - 호출");
 		logger.info("userDelete userid : {}", userId);
 

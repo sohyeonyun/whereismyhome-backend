@@ -56,6 +56,11 @@ public class SwaggerConfiguration {
 	}
 	
 	@Bean
+	public Docket qnaApi() {
+		return getDocket("1:1 문의", Predicates.or(PathSelectors.regex("/qna.*")));
+	}
+	
+	@Bean
 	public Docket allApi() {
 		return getDocket("전체", Predicates.or(PathSelectors.regex("/*.*")));
 	}

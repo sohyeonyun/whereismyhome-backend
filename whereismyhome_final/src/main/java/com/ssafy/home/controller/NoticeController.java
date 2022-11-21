@@ -43,6 +43,7 @@ public class NoticeController {
 
 		try {
 			ArrayList<NoticeDTO> list = noticeService.listNotice();
+			logger.info("noticeList list : {} " , list);
 			return new ResponseEntity<ArrayList>(list, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -71,10 +72,10 @@ public class NoticeController {
 
 //	viewNotice
 //	updateHit
-	@GetMapping("/{noticeno}")
+	@GetMapping("/{notice_no}")
 	@ApiOperation(value = "공지사항 상세", response = NoticeDTO.class)
 	public ResponseEntity<?> noticeView(
-			@PathVariable("noticeno") @ApiParam(value = "공지사항 상세 번호.", required = true) int noticeNo) {
+			@PathVariable("notice_no") @ApiParam(value = "공지사항 상세 번호.", required = true) int noticeNo) {
 		logger.info("noticeView - 호출");
 		logger.info("noticeView noticeNo : {}", noticeNo);
 
@@ -89,7 +90,7 @@ public class NoticeController {
 	}
 
 //	updateNotice
-	@PutMapping("/{notice_no}")
+	@PutMapping
 	@ApiOperation(value = "공지사항 수정", response = String.class)
 	public ResponseEntity<?> noticeModify(
 			@RequestBody @ApiParam(value = "공지사항 수정 정보.", required = true) NoticeDTO noticeDto) {
@@ -108,12 +109,12 @@ public class NoticeController {
 	}
 
 //	deleteNotice
-	@DeleteMapping("/{noticeno}")
+	@DeleteMapping("/{notice_no}")
 	@ApiOperation(value = "공지사항 삭제", response = String.class)
 	public ResponseEntity<?> noticeDelete(
-			@PathVariable("noticeno") @ApiParam(value = "공지사항 삭제 번호.", required = true) int noticeNo) {
+			@PathVariable("notice_no") @ApiParam(value = "공지사항 삭제 번호.", required = true) int noticeNo) {
 		logger.info("noticeDelete - 호출");
-		logger.info("noticeDelete userid : {}", noticeNo);
+		logger.info("noticeDelete noticeNo : {}", noticeNo);
 
 		try {
 			if (noticeService.deleteNotice(noticeNo)) {
