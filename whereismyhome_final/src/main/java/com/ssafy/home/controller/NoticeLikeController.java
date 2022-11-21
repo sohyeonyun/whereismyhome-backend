@@ -1,9 +1,5 @@
 package com.ssafy.home.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +23,7 @@ import io.swagger.annotations.ApiParam;
 @Api("NoticeLike Controller API V1")
 public class NoticeLikeController {
 
-	public static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	public static final Logger logger = LoggerFactory.getLogger(NoticeLikeController.class);
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
 

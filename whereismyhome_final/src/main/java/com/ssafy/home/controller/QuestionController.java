@@ -28,7 +28,7 @@ import io.swagger.annotations.ApiParam;
 @Api("Question Controller API V1")
 public class QuestionController {
 
-	public static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	public static final Logger logger = LoggerFactory.getLogger(QuestionController.class);
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
 
