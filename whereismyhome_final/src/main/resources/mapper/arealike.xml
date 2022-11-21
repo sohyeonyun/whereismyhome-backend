@@ -5,6 +5,14 @@
 <mapper namespace="com.ssafy.home.model.mapper.AreaLikeMapper">
 
 	<!-- 지역 찜하기 -->
+	<select id="listAreaLike" parameterType="String" resultType="UserAreaLikeDTO">
+		select distinct d.sidoname, d.gugunName, d.dongname
+		from dongCode as d
+			left join area_like as al
+		on d.dongcode = al.dongcode
+		where al.user_id = #{userId} and d.dongname is not null
+	</select>
+	
 	<insert id="registAreaLike" parameterType="AreaLikeDTO">
 		insert into area_like
 		(user_id, dongCode, ip_address)
