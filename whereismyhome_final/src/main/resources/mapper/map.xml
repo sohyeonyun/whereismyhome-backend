@@ -10,7 +10,7 @@
 	</resultMap>
 	
 	<resultMap type="MapDTO" id="mapdto">
-		<result column="apartmentname" property="apartmentName"/>
+		<result column="apartmentname" property="apartMentName"/>
 		<result column="location" property="location"/>
 		<result column="buildyear" property="buildYear"/>
 		<result column="dealamount" property="dealAmount"/>
@@ -31,7 +31,7 @@
 		        and dongName is not null
 		        and (sidoName like concat('%', #{name}, '%')
 						or gugunName like concat('%', #{name}, '%')
-						or dongName like concat('%', #{name}, '%')
+						or dongName like concat('%', #{name}, '%'))
 	</select>
 	
 	<select id="listMapDong" parameterType="map" resultMap="mapdto">
@@ -56,20 +56,20 @@
 		       LEFT JOIN house_like AS hl
 		              ON i.aptcode = hl.aptcode
 		WHERE  c.dongcode = #{dongCode}
-		       <if test="key == 'lowDealAmount'">
-		       		AND (SELECT Cast(REPLACE(dealamount, ',', '') AS UNSIGNED)) <![CDATA[ > ]]>= #{lowDealAmount}
+		       <if test="'lowDealAmount' != null">
+		       AND (SELECT Cast(REPLACE(dealamount, ',', '') AS UNSIGNED)) >= #{lowDealAmount}
 		       </if>
-		       <if test="key == 'highDealAmount'">
-		       		AND (SELECT Cast(REPLACE(dealamount, ',', '') AS UNSIGNED)) <![CDATA[ < ]]>= #{lowDealAmount}
+		       <if test="'highDealAmount' != null">
+		       AND (SELECT Cast(REPLACE(dealamount, ',', '') AS UNSIGNED)) &lt;= #{highDealAmount}
 		       </if>
-		       <if test="key == 'lowArea'">
-		       		AND (SELECT Cast(area AS UNSIGNED)) <![CDATA[ > ]]>= #{lowArea}
+		       <if test="'lowArea' != null">
+		       AND (SELECT Cast(area AS UNSIGNED)) >= #{lowArea}
 		       </if>
-		       <if test="key == 'highArea'">
-		       		AND (SELECT Cast(area AS UNSIGNED)) <![CDATA[ < ]]>= #{highArea}
+		       <if test="'highArea' != null">
+		       AND (SELECT Cast(area AS UNSIGNED)) &lt;= #{highArea}
 		       </if>
-		       <if test="key == 'year'">
-		       		AND d.dealyear <![CDATA[ < ]]>= Year(Now()) - #{year}
+		       <if test="'year' != null">
+		       AND d.dealyear >= Year(Now()) - #{year}
 		       </if>
 	</select>
 	
@@ -96,21 +96,21 @@
 		              ON i.aptcode = hl.aptcode
 		WHERE  i.aptcode IN (SELECT aptcode
 		                     FROM   houseinfo
-		                     WHERE  apartmentname LIKE #{apartMentName})
-		       <if test="key == 'lowDealAmount'">
-		       		AND (SELECT Cast(REPLACE(dealamount, ',', '') AS UNSIGNED)) <![CDATA[ > ]]>= #{lowDealAmount}
+		                     WHERE  apartmentname LIKE concat('%', #{apartMentName}, '%'))
+		       <if test="'lowDealAmount' != null">
+		       AND (SELECT Cast(REPLACE(dealamount, ',', '') AS UNSIGNED)) >= #{lowDealAmount}
 		       </if>
-		       <if test="key == 'highDealAmount'">
-		       		AND (SELECT Cast(REPLACE(dealamount, ',', '') AS UNSIGNED)) <![CDATA[ < ]]>= #{highDealAmount}
+		       <if test="'highDealAmount' != null">
+		       AND (SELECT Cast(REPLACE(dealamount, ',', '') AS UNSIGNED)) &lt;= #{highDealAmount}
 		       </if>
-		       <if test="key == 'lowArea'">
-		       		AND (SELECT Cast(area AS UNSIGNED)) <![CDATA[ > ]]>= #{lowArea}
+		       <if test="'lowArea' != null">
+		       AND (SELECT Cast(area AS UNSIGNED)) >= #{lowArea}
 		       </if>
-		       <if test="key == 'highArea'">
-		       		AND (SELECT Cast(area AS UNSIGNED)) <![CDATA[ < ]]>= #{highArea}
+		       <if test="'highArea' != null">
+		       AND (SELECT Cast(area AS UNSIGNED)) &lt;= #{highArea}
 		       </if>
-		       <if test="key == 'year'">
-		       		AND d.dealyear <![CDATA[ > ]]>= Year(Now()) - #{year}
+		       <if test="'year' != null">
+		       AND d.dealyear >= Year(Now()) - #{year}
 		       </if>
 	</select>
 	

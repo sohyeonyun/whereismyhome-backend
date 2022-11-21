@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.home.model.MapDTO;
 import com.ssafy.home.model.MapLocationDTO;
+import com.ssafy.home.model.MapSearchOptionDTO;
 import com.ssafy.home.model.mapper.MapMapper;
 
 @Service
@@ -26,12 +27,12 @@ public class MapServiceImpl implements MapService {
 	}
 
 	@Override
-	public ArrayList<MapDTO> listMapDong(Map<String, String> map) throws Exception {
+	public ArrayList<MapDTO> listMapDong(Map<String, Object> map) throws Exception {
 		return mapper.listMapDong(map);
 	}
 
 	@Override
-	public ArrayList<MapDTO> listMapApt(Map<String, String> map) throws Exception {
+	public ArrayList<MapDTO> listMapApt(Map<String, Object> map) throws Exception {
 		return mapper.listMapApt(map);
 	}
 
