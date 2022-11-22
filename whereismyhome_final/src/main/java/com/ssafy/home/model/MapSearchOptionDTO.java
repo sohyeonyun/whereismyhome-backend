@@ -1,5 +1,7 @@
 package com.ssafy.home.model;
 
+import java.time.LocalDate;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -54,6 +56,24 @@ public class MapSearchOptionDTO {
 	}
 
 	public void setYear(int year) {
+		this.year = year;
+	}
+	
+	public MapSearchOptionDTO() {
+		LocalDate now = LocalDate.now();
+		
+		this.lowDealAmount = 0;
+		this.highDealAmount = Integer.MAX_VALUE;
+		this.lowArea = 0;
+		this.highArea = Integer.MAX_VALUE;
+		this.year = now.getYear();
+	}
+
+	public MapSearchOptionDTO(int lowDealAmount, int highDealAmount, int lowArea, int highArea, int year) {
+		this.lowDealAmount = lowDealAmount;
+		this.highDealAmount = highDealAmount;
+		this.lowArea = lowArea;
+		this.highArea = highArea;
 		this.year = year;
 	}
 
