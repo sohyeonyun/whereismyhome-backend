@@ -16,8 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.home.model.MapAptLocationDTO;
 import com.ssafy.home.model.MapDTO;
-import com.ssafy.home.model.MapLocationDTO;
+import com.ssafy.home.model.MapDongLocationDTO;
 import com.ssafy.home.model.MapSearchOptionDTO;
 import com.ssafy.home.model.service.MapService;
 
@@ -38,22 +39,41 @@ public class MapController {
 	private MapService mapService;
 
 //	listMapLocation
-	@GetMapping("/{name}")
+	@GetMapping("/dong/{name}")
 	@ApiOperation(value = "시 구군 동 목록", response = ArrayList.class)
-	public ResponseEntity<?> mapLocationList(
+	public ResponseEntity<?> mapDongLocationList(
 			@PathVariable("name") @ApiParam(value = "시 구군 동 검색 이름.", required = true) String name) {
-		logger.info("mapLocationList - 호출");
-		logger.info("mapLocationList name : {}", name);
+		logger.info("mapDongLocationList - 호출");
+		logger.info("mapDongLocationList name : {}", name);
 
 		try {
-			ArrayList<MapLocationDTO> list = mapService.listMapLocation(name);
-			logger.info("mapLocationList list : {} ", list);
+			ArrayList<MapDongLocationDTO> list = mapService.listMapDongLocation(name);
+			logger.info("mapDongLocationList list : {} ", list);
 			return new ResponseEntity<ArrayList>(list, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 		}
 	}
+	
+//	listMapLocation
+	@GetMapping("/apt/{name}")
+	@ApiOperation(value = "아파트 목록", response = ArrayList.class)
+	public ResponseEntity<?> mapAptLocationList(
+			@PathVariable("name") @ApiParam(value = "아파트 검색 이름.", required = true) String name) {
+		logger.info("mapAptLocationList - 호출");
+		logger.info("mapAptLocationList name : {}", name);
+
+		try {
+			ArrayList<MapAptLocationDTO> list = mapService.listMapAptLocation(name);
+			logger.info("mapAptLocationList list : {} ", list);
+			return new ResponseEntity<ArrayList>(list, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+		}
+	}
+	
 
 //	listMapDong
 	@PostMapping("/dong/{dongcode}")
@@ -84,17 +104,17 @@ public class MapController {
 	}
 
 //	listMapApt
-	@PostMapping("/apt/{apartMentName}")
+	@PostMapping("/apt/{aptcode}")
 	@ApiOperation(value = "아파트 선택 시 매매 목록", response = ArrayList.class)
 	public ResponseEntity<?> mapAptList(
-			@PathVariable("apartMentName") @ApiParam(value = "선택한 아파트.", required = true) String apartMentName,
+			@PathVariable("aptcode") @ApiParam(value = "선택한 아파트.", required = true) String aptCode,
 			@RequestBody @ApiParam(value = "추가 옵션(최소 거래금액, 최대 거래금액, 최소 크기, 최대 크기, 거래일)", required = true) MapSearchOptionDTO dto) {
 		logger.info("mapAptList - 호출");
-		logger.info("mapAptList apartMentName : {}", apartMentName);
+		logger.info("mapAptList apartCode : {}", aptCode);
 		logger.info("mapAptList dto : {}", dto);
 		
 		Map<String, Object> map = new HashMap<>();
-		map.put("apartMentName", apartMentName);
+		map.put("aptCode", aptCode);
 		map.put("lowDealAmount", dto.getLowDealAmount());
 		map.put("highDealAmount", dto.getHighDealAmount());
 		map.put("lowArea", dto.getLowArea());

@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value = "MapLocationDTO : 시 구군 동 정보", description = "시 구군 동 정보를 나타낸다.")
-public class MapLocationDTO {
+public class MapDongLocationDTO {
 
 	@ApiModelProperty(value = "시 구군 동 이름")
 	private String siGugunDongName;

@@ -6,8 +6,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.home.model.MapAptLocationDTO;
 import com.ssafy.home.model.MapDTO;
-import com.ssafy.home.model.MapLocationDTO;
+import com.ssafy.home.model.MapDongLocationDTO;
 import com.ssafy.home.model.MapSearchOptionDTO;
 import com.ssafy.home.model.mapper.MapMapper;
 
@@ -22,8 +23,13 @@ public class MapServiceImpl implements MapService {
 	}
 	
 	@Override
-	public ArrayList<MapLocationDTO> listMapLocation(String name) throws Exception {
-		return mapper.listMapLocation(name);
+	public ArrayList<MapDongLocationDTO> listMapDongLocation(String name) throws Exception {
+		return mapper.listMapDongLocation(name);
+	}
+	
+	@Override
+	public ArrayList<MapAptLocationDTO> listMapAptLocation(String name) throws Exception {
+		return mapper.listMapAptLocation(name);
 	}
 
 	@Override

@@ -4,9 +4,15 @@
 
 <mapper namespace="com.ssafy.home.model.mapper.MapMapper">
 
-	<resultMap type="MapLocationDTO" id="locatedto">
+	<resultMap type="MapDongLocationDTO" id="donglocatedto">
 		<result column="si_gugun_dong_name" property="siGugunDongName"/>
 		<result column="dongcode" property="dongCode"/>
+	</resultMap>
+	
+	<resultMap type="MapAptLocationDTO" id="aptlocatedto">
+		<result column="apartmentName" property="apartmentName"/>
+		<result column="location" property="location"/>
+		<result column="aptcode" property="aptCode"/>
 	</resultMap>
 	
 	<resultMap type="MapDTO" id="mapdto">
@@ -23,7 +29,7 @@
 	</resultMap>
 	
 	<!-- 맵 검색 -->
-	<select id="listMapLocation" parameterType="String" resultMap="locatedto">
+	<select id="listMapDongLocation" parameterType="String" resultMap="donglocatedto">
 		select distinct concat(sidoName, " ", gugunName, " ", dongName) si_gugun_dong_name, dongcode
 			from dongcode
 		    where sidoName is not null
@@ -32,6 +38,14 @@
 		        and (sidoName like concat('%', #{name}, '%')
 						or gugunName like concat('%', #{name}, '%')
 						or dongName like concat('%', #{name}, '%'))
+	</select>
+	
+	<select id="listMapAptLocation" parameterType="String" resultMap="aptlocatedto">
+		select distinct i.apartmentName, concat(c.sidoname, ' ', c.gugunname, ' ', c.dongname) location, i.aptcode
+			from   houseinfo as i
+				left join dongcode AS c
+		              on i.dongcode = c.dongcode
+			where  apartmentname like concat('%', #{name}, '%')
 	</select>
 	
 	<select id="listMapDong" parameterType="map" resultMap="mapdto">
@@ -98,9 +112,7 @@
 		              ON i.aptcode = d.aptcode
 		       LEFT JOIN house_like AS hl
 		              ON i.aptcode = hl.aptcode
-		WHERE  i.aptcode IN (SELECT aptcode
-		                     FROM   houseinfo
-		                     WHERE  apartmentname LIKE concat('%', #{apartMentName}, '%'))
+		WHERE  i.aptcode = #{aptCode}
 		       <if test="'lowDealAmount' != null">
 		       AND (SELECT Cast(REPLACE(dealamount, ',', '') AS UNSIGNED)) >= #{lowDealAmount}
 		       </if>
