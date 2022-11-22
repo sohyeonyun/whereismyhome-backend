@@ -47,7 +47,9 @@
 		                (SELECT Count(*)
 		                 FROM   house_like
 		                 WHERE  aptcode = i.aptcode)
-		                house_like_count
+		                house_like_count,
+		                c.dongcode,
+		                i.aptcode
 		FROM   houseinfo AS i
 		       LEFT JOIN dongcode AS c
 		              ON i.dongcode = c.dongcode
@@ -86,7 +88,9 @@
 		                (SELECT Count(*)
 		                 FROM   house_like
 		                 WHERE  aptcode = i.aptcode)
-		                house_like_count
+		                house_like_count,
+		                c.dongcode,
+		                i.aptcode
 		FROM   houseinfo AS i
 		       LEFT JOIN dongcode AS c
 		              ON i.dongcode = c.dongcode

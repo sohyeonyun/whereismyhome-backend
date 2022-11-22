@@ -26,6 +26,10 @@ public class MapDTO {
 	private String lng;
 	@ApiModelProperty(value = "아파트 좋아요 눌린 수")
 	private String houseLikeCount;
+	@ApiModelProperty(value = "동 코드")
+	private String dongcode;
+	@ApiModelProperty(value = "아파트 코드")
+	private String aptcode;
 
 	public String getApartMentName() {
 		return apartMentName;
@@ -107,11 +111,28 @@ public class MapDTO {
 		this.houseLikeCount = houseLikeCount;
 	}
 
+	public String getDongcode() {
+		return dongcode;
+	}
+
+	public void setDongcode(String dongcode) {
+		this.dongcode = dongcode;
+	}
+
+	public String getAptcode() {
+		return aptcode;
+	}
+
+	public void setAptcode(String aptcode) {
+		this.aptcode = aptcode;
+	}
+
 	@Override
 	public String toString() {
 		return "MapDTO [apartMentName=" + apartMentName + ", location=" + location + ", buildYear=" + buildYear
 				+ ", dealAmount=" + dealAmount + ", date=" + date + ", area=" + area + ", floor=" + floor + ", lat="
-				+ lat + ", lng=" + lng + ", houseLikeCount=" + houseLikeCount + "]";
+				+ lat + ", lng=" + lng + ", houseLikeCount=" + houseLikeCount + ", dongcode=" + dongcode + ", aptcode="
+				+ aptcode + "]";
 	}
 
 }

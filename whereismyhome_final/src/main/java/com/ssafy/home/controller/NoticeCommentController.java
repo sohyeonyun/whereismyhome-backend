@@ -2,6 +2,8 @@ package com.ssafy.home.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.home.config.ClientUtils;
 import com.ssafy.home.model.NoticeCommentDTO;
-import com.ssafy.home.model.NoticeDTO;
 import com.ssafy.home.model.service.NoticeCommentService;
 
 import io.swagger.annotations.Api;
@@ -58,10 +60,15 @@ public class NoticeCommentController {
 	@PostMapping
 	@ApiOperation(value = "공지사항 댓글 등록", response = String.class)
 	public ResponseEntity<?> noticeCommentRegist(
-			@RequestBody @ApiParam(value = "게시글 댓글 등록 정보.", required = true) NoticeCommentDTO noticeCommentDTO) {
+			@RequestBody @ApiParam(value = "게시글 댓글 등록 정보.", required = true) NoticeCommentDTO noticeCommentDTO,
+			HttpServletRequest request) {
 		logger.info("noticeCommentRegist - 호출");
-		logger.info("noticeCommentRegist NoticeCommentDTO : {}", noticeCommentDTO);
-
+		logger.info("noticeCommentRegist noticeCommentDTO : {}", noticeCommentDTO);
+		
+		ClientUtils clientUtils = new ClientUtils();
+		noticeCommentDTO.setIpAddress(clientUtils.getRemoteIP(request));
+//		System.out.println(clientUtils.getRemoteIP(request));
+		
 		try {
 			if (noticeCommentService.registNoticeComment(noticeCommentDTO)) {
 				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);

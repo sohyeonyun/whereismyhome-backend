@@ -2,6 +2,8 @@ package com.ssafy.home.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.home.config.ClientUtils;
 import com.ssafy.home.model.QuestionDTO;
 import com.ssafy.home.model.service.QuestionService;
 
@@ -36,7 +39,7 @@ public class QuestionController {
 	private QuestionService questionService;
 	
 //	listQuestion
-	@GetMapping
+	@GetMapping("/admin")
 	@ApiOperation(value = "1:1문의 목록", response = ArrayList.class)
 	public ResponseEntity<?> questsionList() {
 		logger.info("questsionList - 호출");
@@ -51,14 +54,36 @@ public class QuestionController {
 		}
 	}
 	
+//	listQuestion
+	@GetMapping("/{user_id}")
+	@ApiOperation(value = "유저 1:1문의 목록", response = ArrayList.class)
+	public ResponseEntity<?> questsionUserList(
+			@PathVariable("user_id") @ApiParam(value = "1:1문의 유저 아이디.", required = true) String userId) {
+		logger.info("questsionUserList - 호출");
+
+		try {
+			ArrayList<QuestionDTO> list = questionService.listUserQuestion(userId);
+			logger.info("questsionUserList list : {} " , list);
+			return new ResponseEntity<ArrayList>(list, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+		}
+	}
+	
 //	registQuestion
 	@PostMapping
 	@ApiOperation(value = "1:1문의 등록", response = String.class)
 	public ResponseEntity<?> questsionRegist(
-			@RequestBody @ApiParam(value = "1:1문의 등록 정보.", required = true) QuestionDTO questionDTO) {
+			@RequestBody @ApiParam(value = "1:1문의 등록 정보.", required = true) QuestionDTO questionDTO,
+			HttpServletRequest request) {
 		logger.info("questsionRegist - 호출");
 		logger.info("questsionRegist questionDTO : {}", questionDTO);
-
+		
+		ClientUtils clientUtils = new ClientUtils();
+		questionDTO.setIpAddress(clientUtils.getRemoteIP(request));
+//		System.out.println(clientUtils.getRemoteIP(request));
+		
 		try {
 			if (questionService.registQuestion(questionDTO)) {
 				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);

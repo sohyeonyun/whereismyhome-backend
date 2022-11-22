@@ -13,6 +13,9 @@ public interface QuestionMapper {
 	// 문의사항 전체보기
 	ArrayList<QuestionDTO> listQuestion() throws SQLException;
 	
+	// 문의사항 자기꺼만 보기
+	ArrayList<QuestionDTO> listUserQuestion(String userId) throws SQLException;
+	
 	// 문의사항 등록
 	boolean registQuestion(QuestionDTO dto) throws SQLException;
 	

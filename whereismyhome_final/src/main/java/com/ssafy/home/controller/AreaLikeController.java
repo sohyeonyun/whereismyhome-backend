@@ -2,6 +2,8 @@ package com.ssafy.home.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.home.config.ClientUtils;
 import com.ssafy.home.model.AreaLikeDTO;
 import com.ssafy.home.model.NoticeCommentDTO;
 import com.ssafy.home.model.NoticeLikeDTO;
@@ -58,15 +61,21 @@ public class AreaLikeController {
 	@ApiOperation(value = "관심지역 등록", response = String.class)
 	public ResponseEntity<?> areaLikeRegist(
 			@PathVariable("user_id") @ApiParam(value = "유저 아이디", required = true) String userId,
-			@PathVariable("dongCode") @ApiParam(value = "동 코드", required = true) String dongCode) {
+			@PathVariable("dongCode") @ApiParam(value = "동 코드", required = true) String dongCode,
+			HttpServletRequest request) {
 		logger.info("areaLikeRegist - 호출");
 		logger.info("user_id : {}", userId);
 		logger.info("dongCode : {}", dongCode);
-
+		
+		
 		AreaLikeDTO dto = new AreaLikeDTO();
 		dto.setUserId(userId);
 		dto.setDongCode(dongCode);
-//		dto.setIpAddress(ipAddress);
+		
+		ClientUtils clientUtils = new ClientUtils();
+		dto.setIpAddress(clientUtils.getRemoteIP(request));
+//		System.out.println(clientUtils.getRemoteIP(request));
+		
 		try {
 			if (areaLikeService.registAreaLike(dto)) {
 				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);

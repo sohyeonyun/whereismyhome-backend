@@ -21,6 +21,13 @@
 		order by question_no desc
 	</select>
 	
+	<select id="listUserQuestion" parameterType="String" resultMap="question">
+		select *
+		from question
+		where user_id = #{user_id}
+		order by question_no desc
+	</select>
+	
 	<insert id="registQuestion" parameterType="QuestionDTO">
 		insert into question
 			(user_id, subject, content, ip_address)
