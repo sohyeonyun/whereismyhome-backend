@@ -22,6 +22,11 @@ public class QuestionServiceImpl implements QuestionService {
 	public ArrayList<QuestionDTO> listQuestion() throws Exception {
 		return mapper.listQuestion();
 	}
+	
+	@Override
+	public ArrayList<QuestionDTO> listUserQuestion(String userId) throws Exception {
+		return mapper.listUserQuestion(userId);
+	}
 
 	@Override
 	public boolean registQuestion(QuestionDTO dto) throws Exception {

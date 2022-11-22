@@ -12,6 +12,9 @@ public interface QuestionService {
 	// 문의사항 등록
 	boolean registQuestion(QuestionDTO dto) throws Exception;
 	
+	// 문의사항 자기꺼만 보기
+	ArrayList<QuestionDTO> listUserQuestion(String userId) throws Exception;
+	
 	// 문의사항 수정
 	boolean updateQuestion(QuestionDTO dto) throws Exception;
 	

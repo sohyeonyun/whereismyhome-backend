@@ -1,5 +1,7 @@
 package com.ssafy.home.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.home.config.ClientUtils;
 import com.ssafy.home.model.NoticeLikeDTO;
 import com.ssafy.home.model.service.NoticeLikeService;
 
@@ -35,7 +38,8 @@ public class NoticeLikeController {
 	@ApiOperation(value = "공지사항 좋아요 등록", response = String.class)
 	public ResponseEntity<?> noticeLikeRegist(
 			@PathVariable("notice_no") @ApiParam(value = "게시글 번호", required = true) int noticeNo,
-			@PathVariable("user_id") @ApiParam(value = "유저 아이디", required = true) String userId) {
+			@PathVariable("user_id") @ApiParam(value = "유저 아이디", required = true) String userId,
+			HttpServletRequest request) {
 		logger.info("noticeLikeRegist - 호출");
 		logger.info("notice_no : {}", noticeNo);
 		logger.info("user_id : {}", userId);
@@ -43,7 +47,10 @@ public class NoticeLikeController {
 		NoticeLikeDTO dto = new NoticeLikeDTO();
 		dto.setNoticeNo(noticeNo);
 		dto.setUserId(userId);
-//		dto.setIpAddress(ipAddress);
+		
+		ClientUtils clientUtils = new ClientUtils();
+		dto.setIpAddress(clientUtils.getRemoteIP(request));
+//		System.out.println(clientUtils.getRemoteIP(request));
 		try {
 			if (noticeLikeService.registNoticeLike(dto)) {
 				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);

@@ -2,6 +2,8 @@ package com.ssafy.home.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.home.config.ClientUtils;
 import com.ssafy.home.model.HouseLikeDTO;
-import com.ssafy.home.model.UserAreaLikeDTO;
 import com.ssafy.home.model.UserHouseLikeDTO;
 import com.ssafy.home.model.service.HouseLikeService;
 
@@ -57,7 +59,8 @@ public class HouseLikeController {
 	@ApiOperation(value = "관심 아파트 등록", response = String.class)
 	public ResponseEntity<?> houseLikeRegist(
 			@PathVariable("user_id") @ApiParam(value = "유저 아이디", required = true) String userId,
-			@PathVariable("aptCode") @ApiParam(value = "아파트 코드", required = true) String aptCode) {
+			@PathVariable("aptCode") @ApiParam(value = "아파트 코드", required = true) String aptCode,
+			HttpServletRequest request) {
 		logger.info("houseLikeRegist - 호출");
 		logger.info("user_id : {}", userId);
 		logger.info("aptCode : {}", aptCode);
@@ -65,7 +68,11 @@ public class HouseLikeController {
 		HouseLikeDTO dto = new HouseLikeDTO();
 		dto.setUserId(userId);
 		dto.setAptCode(aptCode);
-//		dto.setIpAddress(ipAddress);
+		
+		ClientUtils clientUtils = new ClientUtils();
+		dto.setIpAddress(clientUtils.getRemoteIP(request));
+//		System.out.println(clientUtils.getRemoteIP(request));
+		
 		try {
 			if (houseLikeService.registHouseLike(dto)) {
 				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);

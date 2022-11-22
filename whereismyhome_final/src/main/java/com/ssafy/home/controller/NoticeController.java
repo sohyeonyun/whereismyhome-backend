@@ -2,6 +2,8 @@ package com.ssafy.home.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.home.config.ClientUtils;
 import com.ssafy.home.model.NoticeDTO;
 import com.ssafy.home.model.service.NoticeService;
 
@@ -55,10 +58,15 @@ public class NoticeController {
 	@PostMapping
 	@ApiOperation(value = "공지사항 등록", response = String.class)
 	public ResponseEntity<?> noticeRegist(
-			@RequestBody @ApiParam(value = "공지사항 등록 정보.", required = true) NoticeDTO noticeDto) {
+			@RequestBody @ApiParam(value = "공지사항 등록 정보.", required = true) NoticeDTO noticeDto,
+			HttpServletRequest request) {
 		logger.info("noticeRegist - 호출");
 		logger.info("noticeRegist noticeDto : {}", noticeDto);
-
+		
+		ClientUtils clientUtils = new ClientUtils();
+		noticeDto.setIpAddress(clientUtils.getRemoteIP(request));
+//		System.out.println(clientUtils.getRemoteIP(request));
+		
 		try {
 			if (noticeService.registNotice(noticeDto)) {
 				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
