@@ -15,6 +15,11 @@
 		<result column="aptcode" property="aptCode"/>
 	</resultMap>
 	
+	<resultMap type="AvgDealamountDTO" id="avgdealamountDTO">
+		<result column="dealYear" property="dealYear"/>
+		<result column="avgdealamount" property="avgDealamount"/>
+	</resultMap>
+	
 	<resultMap type="MapDTO" id="mapdto">
 		<result column="apartmentname" property="apartMentName"/>
 		<result column="location" property="location"/>
@@ -87,6 +92,8 @@
 		       <if test="'year' != null">
 		       AND d.dealyear >= Year(Now()) - #{year}
 		       </if>
+		       GROUP by i.apartmentname
+		       LIMIT 10
 	</select>
 	
 	<select id="listMapApt" parameterType="map" resultMap="mapdto">
@@ -128,6 +135,14 @@
 		       <if test="'year' != null">
 		       AND d.dealyear >= Year(Now()) - #{year}
 		       </if>
+		       LIMIT 10
+	</select>
+	
+	<select id="listAvgDealamount" parameterType="String" resultMap="avgdealamountDTO">
+		select dealYear, round(avg(REPLACE(dealamount, ',', '')), -3) avgdealamount
+			from housedeal
+		    where aptcode = #{aptCode}
+		    group by dealYear;
 	</select>
 	
 </mapper>

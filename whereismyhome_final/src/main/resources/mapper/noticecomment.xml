@@ -18,7 +18,8 @@
 		select *
 		from notice_comment
         where notice_no = #{noticeNo}
-		order by notice_no desc;
+		order by notice_no desc
+		limit 10
 	</select>
 	
 	<insert id="registNoticeComment" parameterType="NoticeCommentDTO">

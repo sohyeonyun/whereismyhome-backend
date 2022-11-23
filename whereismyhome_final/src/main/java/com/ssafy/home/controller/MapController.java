@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.home.model.AvgDealamountDTO;
 import com.ssafy.home.model.MapAptLocationDTO;
 import com.ssafy.home.model.MapDTO;
 import com.ssafy.home.model.MapDongLocationDTO;
@@ -38,7 +39,7 @@ public class MapController {
 	@Autowired
 	private MapService mapService;
 
-//	listMapLocation
+//	listMapDongLocation
 	@GetMapping("/dong/{name}")
 	@ApiOperation(value = "시 구군 동 목록", response = ArrayList.class)
 	public ResponseEntity<?> mapDongLocationList(
@@ -56,7 +57,7 @@ public class MapController {
 		}
 	}
 	
-//	listMapLocation
+//	listMapAptLocation
 	@GetMapping("/apt/{name}")
 	@ApiOperation(value = "아파트 목록", response = ArrayList.class)
 	public ResponseEntity<?> mapAptLocationList(
@@ -124,6 +125,24 @@ public class MapController {
 		try {
 			ArrayList<MapDTO> list = mapService.listMapApt(map);
 			logger.info("mapAptList map : {} ", map);
+			return new ResponseEntity<ArrayList>(list, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+		}
+	}
+	
+//	mapAvgDealamount
+	@GetMapping("/avg/{aptcode}")
+	@ApiOperation(value = "선택한 아파트별 연도별 매매 목록", response = ArrayList.class)
+	public ResponseEntity<?> mapAvgDealamount(
+			@PathVariable("aptcode") @ApiParam(value = "선택한 아파트.", required = true) String aptCode) {
+		logger.info("mapAvgDealamount - 호출");
+		logger.info("mapAvgDealamount aptCode : {}", aptCode);
+
+		try {
+			ArrayList<AvgDealamountDTO> list = mapService.listAvgDealamount(aptCode);
+			logger.info("mapAptLocationList list : {} ", list);
 			return new ResponseEntity<ArrayList>(list, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();

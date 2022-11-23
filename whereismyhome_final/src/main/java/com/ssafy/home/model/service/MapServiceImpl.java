@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.home.model.AvgDealamountDTO;
 import com.ssafy.home.model.MapAptLocationDTO;
 import com.ssafy.home.model.MapDTO;
 import com.ssafy.home.model.MapDongLocationDTO;
@@ -40,6 +41,11 @@ public class MapServiceImpl implements MapService {
 	@Override
 	public ArrayList<MapDTO> listMapApt(Map<String, Object> map) throws Exception {
 		return mapper.listMapApt(map);
+	}
+
+	@Override
+	public ArrayList<AvgDealamountDTO> listAvgDealamount(String aptCode) throws Exception {
+		return mapper.listAvgDealamount(aptCode);
 	}
 
 }
