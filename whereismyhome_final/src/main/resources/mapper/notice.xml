@@ -19,6 +19,7 @@
 		select *
 		from notice
 		order by notice_no desc
+		limit 10
 	</select>
 	
 	<insert id="registNotice" parameterType="NoticeDTO">

@@ -19,6 +19,7 @@
 		select *
 		from question
 		order by question_no desc
+		limit 10
 	</select>
 	
 	<select id="listUserQuestion" parameterType="String" resultMap="question">
@@ -26,6 +27,7 @@
 		from question
 		where user_id = #{user_id}
 		order by question_no desc
+		limit 10
 	</select>
 	
 	<insert id="registQuestion" parameterType="QuestionDTO">
