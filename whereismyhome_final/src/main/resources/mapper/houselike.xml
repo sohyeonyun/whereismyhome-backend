@@ -3,30 +3,19 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ssafy.home.model.mapper.HouseLikeMapper">
+
+	<resultMap type="UserHouseLikeDTO" id="houselike">
+		<result column="apartmentName" property="apartmentName"/>
+		<result column="register_time" property="registerTime"/>
+	</resultMap>
 	
 	<!-- 아파트 찜하기 -->
-	<select id="listHouseLike" parameterType="String" resultType="UserHouseLikeDTO">
-		SELECT DISTINCT i.apartmentname,
-		                Concat(c.sidoname, ' ', c.gugunname, ' ', c.dongname) location,
-		                i.buildyear,
-		                d.dealamount,
-		                Concat(d.dealyear, '.', d.dealmonth, '.', d.dealday)  date,
-		                d.area,
-		                d.floor,
-		                i.lat,
-		                i.lng,
-		                (SELECT Count(*)
-		                 FROM   house_like
-		                 WHERE  aptcode = i.aptcode)
-		                house_like_count
-		FROM   houseinfo AS i
-		       LEFT JOIN dongcode AS c
-		              ON i.dongcode = c.dongcode
-		       LEFT JOIN housedeal AS d
-		              ON i.aptcode = d.aptcode
-		       LEFT JOIN house_like AS hl
-		              ON i.aptcode = hl.aptcode
-		WHERE  hl.user_id = #{userId}
+	<select id="listHouseLike" parameterType="String" resultMap="houselike">
+		select h.apartmentName, hl.register_time, h.aptcode
+		from house_like as hl
+			left join houseinfo as h
+				on hl.aptcode = h.aptcode
+	    where hl.user_id = #{userId}
 	</select>
 	
 	<insert id="registHouseLike" parameterType="AreaLikeDTO">

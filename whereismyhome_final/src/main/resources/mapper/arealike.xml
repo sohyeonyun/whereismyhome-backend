@@ -4,13 +4,18 @@
 
 <mapper namespace="com.ssafy.home.model.mapper.AreaLikeMapper">
 
+	<resultMap type="UserAreaLikeDTO" id="arealike">
+		<result column="area" property="area"/>
+		<result column="register_time" property="registerTime"/>
+	</resultMap>
+
 	<!-- 지역 찜하기 -->
-	<select id="listAreaLike" parameterType="String" resultType="UserAreaLikeDTO">
-		select distinct d.sidoname, d.gugunName, d.dongname
-		from dongCode as d
-			left join area_like as al
-				on d.dongcode = al.dongcode
-		where al.user_id = #{userId} and d.dongname is not null
+	<select id="listAreaLike" parameterType="String" resultMap="arealike">
+		select concat(d.sidoname, " ", d.gugunName, " ", d.dongname) area, al.register_time, d.dongcode
+		from area_like as al
+			left join dongCode as d
+				on al.dongcode = d.dongcode
+		where al.user_id = #{userId}
 	</select>
 	
 	<insert id="registAreaLike" parameterType="AreaLikeDTO">
