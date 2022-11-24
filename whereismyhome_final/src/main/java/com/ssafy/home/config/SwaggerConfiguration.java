@@ -71,6 +71,11 @@ public class SwaggerConfiguration {
 	}
 	
 	@Bean
+	public Docket newsApi() {
+		return getDocket("뉴스", Predicates.or(PathSelectors.regex("/news.*")));
+	}
+	
+	@Bean
 	public Docket allApi() {
 		return getDocket("전체", Predicates.or(PathSelectors.regex("/*.*")));
 	}
